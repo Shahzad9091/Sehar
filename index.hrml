@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    overflow: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+h1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: white;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    position: relative;
+    width: 100%;
+    height: 150px;
+}
+
+button {
+    padding: 14px 28px;
+    font-size: clamp(14px, 3vw, 18px);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#yesBtn {
+    background: white;
+    color: #ff4d6d;
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+#noBtn {
+    position: absolute;
+    background: #333;
+    color: white;
+    touch-action: none; /* Critical for mobile Chrome */
+}
+
+#message {
+    font-size: clamp(18px, 4vw, 24px);
+    color: white;
+    font-weight: bold;
+    line-height: 1.4;
+    display: none; /* Shown after Yes */
+}
+
+#celebrationImg {
+    max-width: 100%;
+    max-height: 45vh;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: none; /* Shown after Yes */
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+.heart {
+    position: fixed;
+    font-size: 18px;
+    white-space: nowrap;
+    color: white;
+    pointer-events: none;
+    animation: float 4s linear forwards;
+    z-index: 999;
+}
+
+@keyframes float {
+    from { transform: translateY(10vh); opacity: 1; }
+    to { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainContainer">
+    <h1 id="question">Mery Gulab Jamun Happy Valentines Day! Will you be my valentines? 💖</h1>
+    
+    <div class="buttons" id="buttonWrap">
+        <button id="yesBtn">Yes 💕</button>
+        <button id="noBtn">No 😜</button>
+    </div>
+
+    <div id="message"></div>
+
+    <img id="celebrationImg" src="" alt="Valentine Image">
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+const buttonArea = document.querySelector(".buttons");
+const question = document.getElementById("question");
+const buttonWrap = document.getElementById("buttonWrap");
+const celebrationImg = document.getElementById("celebrationImg");
+
+const MY_PHOTO_URL = "https://postcardsua.com/cdn/shop/products/ukrainian_valentine-card-postal-ukraine.jpg?v=1611666934&width=533"; 
+
+// Initial position
+noBtn.style.left = "40%";
+noBtn.style.top = "60px";
+
+function moveNoButton(e) {
+    if (e) e.preventDefault(); 
+    
+    const maxX = buttonArea.clientWidth - noBtn.offsetWidth;
+    const maxY = buttonArea.clientHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+// Event Listeners for NO
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton, { passive: false });
+noBtn.addEventListener("click", (e) => e.preventDefault());
+
+// YES click action
+yesBtn.addEventListener("click", () => {
+    question.style.display = "none";
+    buttonWrap.style.display = "none";
+
+    message.style.display = "block";
+    message.innerHTML = "Tum mile toh laga jaise har dua qabool ho gayi, Shukriya meri zindagi ko apni mohabbat se sanwarne ke liye.💘 Shukria Butt Saab🤩";
+    
+    celebrationImg.src = MY_PHOTO_URL;
+    celebrationImg.style.display = "block";
+
+    startHearts();
+});
+
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "🌹 Love you Sehar 🌹";
+        heart.style.left = Math.random() * 80 + "vw";
+        heart.style.bottom = "-5vh";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 4000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
